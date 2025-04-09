@@ -1,0 +1,16 @@
+{
+  "name": "raycastjs",
+  "version": "1.0.0",
+  "description": "Este proyecto implementa una técnica de **raycasting** en JavaScript para crear una perspectiva tridimensional en un entorno 2D, similar a los primeros juegos en 3D. Además, incluye **sprites** tipo billboard y diferentes alturas.\r <div align=\"center\" style=\"display: flex; justify-content: center; flex-wrap: wrap; gap: 10px;\">\r   <img src=\"https://tonyponyy.github.io/raycastjs/img/screenshot2.png\" alt=\"Coche en el juego\" height=\"250\" style=\"max-width: 100%; height: auto;\">\r   <img src=\"https://tonyponyy.github.io/raycastjs/img/screenshot.png\" alt=\"Coche en el juego\" height=\"250\" style=\"max-width: 100%; height: auto;\">\r </div>",
+  "main": "index.js",
+  "scripts": {
+    "start": "http-server ./ -p 8080",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "http-server": "^14.1.1"
+  }
+}

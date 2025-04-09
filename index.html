@@ -1,48 +1,22 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>RaycastJS</title>
-    <style>
-
-        
-        body { display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        canvas { border: 1px solid black; }
-    canvas {
-    image-rendering: pixelated; /* Forzar renderizado pixelado */
-    image-rendering: -moz-crisp-edges; /* Para Firefox */
-    image-rendering: -o-crisp-edges; /* Para Opera */
-    image-rendering: crisp-edges; /* Para otros navegadores */
-    image-rendering: -webkit-optimize-contrast; /* Para Safari */
-    background-color: black; /* Fondo negro opcional */
-}
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="shortcut icon" href="#">
 </head>
 <body>
-    <canvas id="canvas" width="960" height="540"></canvas>
-    <button id="fullscreen" onclick="set_fullscreen()">Full Screen</button>
-    <script src="js/settings.js"></script>
-    <script src="js/maps.js"></script>
-    <script src="js/gui_controller.js"></script>
-    <script src="js/raycast_controller.js"></script>
-    <script src="js/textures_controller.js"></script>
-    <script src="js/sprites_controller.js"></script>
-    <script src="js/player_controller.js"></script>
-    <script src="js/map_controller.js"></script>
-    <script src="js/main.js"></script>
-    <script>
+    <div id="screen">
+      <canvas id="gameCanvas" width="800" height="600"></canvas>
+    </div>
 
-    function set_fullscreen(){
-      if (canvas.requestFullscreen) {
-        canvas.requestFullscreen();
-      } else if (canvas.mozRequestFullScreen) { // Firefox
-        canvas.mozRequestFullScreen();
-      } else if (canvas.webkitRequestFullscreen) { // Chrome, Safari y Opera
-        canvas.webkitRequestFullscreen();
-      } else if (canvas.msRequestFullscreen) { // Edge/IE
-        canvas.msRequestFullscreen();
-      }
-    }
-    </script>
-</body>
+    <script src="advanced/settings.js"></script>
+    <script src="js/map.js"></script>
+    <script src="advanced/texture.js"></script>
+    <script src="advanced/input_key.js"></script>
+    <script src="advanced/raycast.js"></script>
+    <script src="advanced/player.js"></script>
+    <script src="advanced/main.js"></script>
+  </body>
 </html>
