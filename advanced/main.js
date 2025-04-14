@@ -11,16 +11,22 @@ window.requestAnimFrame = (function(){
     };
 })();
 
+const textureSources = {
+    wall: '/img/brick.png'
+    // Add more textures if needed
+};
+
 function start() {
     // Add event listeners for key press detection
     document.addEventListener('keydown', raycast.keyhandler.onKeyDown);
     document.addEventListener('keyup', raycast.keyhandler.onKeyUp);
 
-    var textureFiles = ["img/brick.png", "img/ground.png", "img/sky.png"];
     // If textures are still required, you can add them here later or manage this separately
 
     // Start the game loop
     requestAnimFrame(tick);
+
+    raycast.render();
 }
 
 function tick() {
@@ -31,5 +37,12 @@ function tick() {
     requestAnimFrame(tick);
 }
 
+window.onload = function(){
+    raycast.textures.loadTextures(() => {
+        // console.log("All textures loaded!");
+        // console.log("raycast.textures.wall:", raycast.textures.wall);
+        start();
+    }, textureSources);
 
-window.onload = start;
+    calculateRayAngles();
+};

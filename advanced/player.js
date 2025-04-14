@@ -16,18 +16,18 @@ raycast.player = {
             camera.y -= camera.dy * camera.speed;
         }
     
-        if(keys.isKeyDown("left")){
-            camera.angle -= camera.rotationSpeed;
-            const oldDx = camera.dx;
-            camera.dx = camera.dx * Math.cos(-camera.rotationSpeed) - camera.dy * Math.sin(-camera.rotationSpeed);
-            camera.dy = oldDx * Math.sin(-camera.rotationSpeed) + camera.dy * Math.cos(-camera.rotationSpeed);
-        }
-    
-        if(keys.isKeyDown("right")){
+        if (keys.isKeyDown("left")) {
             camera.angle += camera.rotationSpeed;
-            const oldDx = camera.dx;
-            camera.dx = camera.dx * Math.cos(camera.rotationSpeed) - camera.dy * Math.sin(camera.rotationSpeed);
-            camera.dy = oldDx * Math.sin(camera.rotationSpeed) + camera.dy * Math.cos(camera.rotationSpeed);
+            camera.angle = (camera.angle + Math.PI * 2) % (Math.PI * 2);
+            camera.dx = Math.cos(camera.angle);
+            camera.dy = Math.sin(camera.angle);
         }
+        
+        if (keys.isKeyDown("right")) {
+            camera.angle -= camera.rotationSpeed;
+            camera.angle = (camera.angle + Math.PI * 2) % (Math.PI * 2);
+            camera.dx = Math.cos(camera.angle);
+            camera.dy = Math.sin(camera.angle);
+        }        
     }
 };
