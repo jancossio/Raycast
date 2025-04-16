@@ -60,11 +60,7 @@ function render() {
 
     for (let ray = 0; ray < canvas.width; ray++) {
         const rayAngle = rayCastAngles[ray] + raycast.camera.angle;
-        const { distance, textureX, isHorizontal } = castRay(
-            raycast.camera.x,
-            raycast.camera.y,
-            rayAngle
-        );
+        const { distance, textureX, isHorizontal } = castRay(raycast.camera.x, raycast.camera.y, rayAngle);
 
         const correctedDistance = distance * cosineRayCastAngles[ray];
         const wallHeight = (TILE_SIZE / correctedDistance) * canvas.height;
@@ -77,13 +73,9 @@ function render() {
         // Darker shading for vertical walls
         ctx.globalAlpha = isHorizontal === false ? 0.9 : 1.0;
 
-        // Clamp and round textureX to prevent artifacts
-        let safeTextureX = Math.floor(textureX);
-        safeTextureX = Math.max(0, Math.min(texture.width - 1, safeTextureX));
-
         ctx.drawImage(
             texture,
-            safeTextureX, 0, 1, texture.height,
+            parseInt(textureX), 0, 1, texture.height,
             dstX, dstY, dstWidth, dstHeight
         );
     }
@@ -96,33 +88,52 @@ function castRay(startX, startY, angle) {
     const sin = Math.sin(angle);
     const cos = Math.cos(angle);
 
-    // Vertical intersections
+    // Vertical Ray intersections
     let vertX = Math.floor(startX / TILE_SIZE) * TILE_SIZE;
     vertX += cos > 0 ? TILE_SIZE : 0;
     let vertY = startY + (vertX - startX) * (sin / cos);
+    const stepXv = cos > 0 ? TILE_SIZE : -TILE_SIZE;
+    const stepYv = stepXv * (sin/cos);
 
-    for (let i = 0; i < 100; i++) {
-        const tileX = Math.floor(vertX / TILE_SIZE) + (cos < 0 ? -1 : 0);
-        const tileY = Math.floor(vertY / TILE_SIZE);
-        if (map[tileY] && map[tileY][tileX] >= 1) break;
-        vertX += cos > 0 ? TILE_SIZE : -TILE_SIZE;
-        vertY += TILE_SIZE * (sin / cos) * (cos > 0 ? 1 : -1);
-    }
-    const distV = Math.sqrt((vertX - startX) ** 2 + (vertY - startY) ** 2);
-
-    // Horizontal intersections
+    // Horizontal Ray intersections
     let horY = Math.floor(startY / TILE_SIZE) * TILE_SIZE;
     horY += sin > 0 ? TILE_SIZE : 0;
     let horX = startX + (horY - startY) * (cos / sin);
+    const stepYh = sin > 0 ? TILE_SIZE : -TILE_SIZE;
+    const stepXh = stepYh * (cos/sin);
+
+    let hitVert = false;
+    let hitHorz = false;
+    let distV = Infinity, distH = Infinity;
 
     for (let i = 0; i < 100; i++) {
-        const tileX = Math.floor(horX / TILE_SIZE);
-        const tileY = Math.floor(horY / TILE_SIZE) + (sin < 0 ? -1 : 0);
-        if (map[tileY] && map[tileY][tileX] >= 1) break;
-        horY += sin > 0 ? TILE_SIZE : -TILE_SIZE;
-        horX += TILE_SIZE * (cos / sin) * (sin > 0 ? 1 : -1);
+        if(!hitVert){
+            const tileX = Math.floor(vertX / TILE_SIZE) + (cos < 0 ? -1 : 0);
+            const tileY = Math.floor(vertY / TILE_SIZE);
+
+            if (map[tileY] && map[tileY][tileX] >= 1){
+                hitVert = true;
+                distV = Math.hypot(vertX - startX, vertY - startY);
+            }else{
+                vertX += stepXv;
+                vertY += stepYv;
+            }
+        }
+
+        if(!hitHorz){
+            const tileX = Math.floor(horX / TILE_SIZE);
+            const tileY = Math.floor(horY / TILE_SIZE) + (sin < 0 ? -1 : 0);
+            if (map[tileY] && map[tileY][tileX] >= 1){
+                hitHorz = true;
+                distH = Math.hypot(horX - startX, horY - startY);
+            }else{
+                horX += stepXh;
+                horY += stepYh;
+            }
+        }
+
+        if (hitVert && hitHorz) break;
     }
-    const distH = Math.sqrt((horX - startX) ** 2 + (horY - startY) ** 2);
 
     if (distV < distH) {
         const textureX = vertY % TILE_SIZE;
