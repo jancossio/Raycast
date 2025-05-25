@@ -25,7 +25,7 @@ raycast.camera = {
     speed: 0.5, // Movement speed
     rotationSpeed: 0.018, // Turning speed
     angle: 0, // Facing right
-    fov: Math.PI / 3, // Field Of View (60 degrees)
+    fov: Math.PI / 2, // Field Of View (60 degrees)
 };
 
 let lastTime = performance.now();
