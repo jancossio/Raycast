@@ -2,6 +2,7 @@ var raycast = raycast || {};
 
 const keys = raycast.keyhandler;
 const camera = raycast.camera;
+const movestep = camera.speed;
 
 raycast.player = {
 
@@ -31,3 +32,9 @@ raycast.player = {
         }
     }
 };
+
+function wallCollision(x, y){
+    const tileX = Math.floor(x / TILE_SIZE);
+    const tileY = Math.floor(y / TILE_SIZE);
+    return map[tileY] && map[tileY][tileX] === 1;
+}

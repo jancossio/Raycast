@@ -25,8 +25,11 @@ raycast.camera = {
     speed: 0.5, // Movement speed
     rotationSpeed: 0.018, // Turning speed
     angle: 0, // Facing right
-    fov: Math.PI / 3, // Field of view (60 degrees)
+    fov: Math.PI / 3, // Field Of View (60 degrees)
 };
+
+let lastTime = performance.now();
+let fps = 0;
 
 // Draw the walls
 function render() {
@@ -54,6 +57,12 @@ function render() {
         const y = canvas.height / 2 - wallHeight / 2;
         ctx.fillRect(x, y, 1, wallHeight);
     }
+
+    const now = performance.now();
+    const delta = (now - lastTime) / 1000;
+    fps = 1 / delta;
+    lastTime = now;
+    // console.log(`FPS: ${fps}`);
 
     requestAnimationFrame(render);
 }
